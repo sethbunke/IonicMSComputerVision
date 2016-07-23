@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http'; //Change to import Headers
 import 'rxjs/add/operator/map';
 
 /*
@@ -12,8 +12,29 @@ import 'rxjs/add/operator/map';
 export class ComputerVisionService {
   data: any;
 
+  url: string;
+  apiKey: string;
+  contentType: string;
+
   constructor(private http: Http) {
     this.data = null;
+    //TODO: INJECT AND LOAD THESE FROM CONFIG 
+    this.url = 'https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=Categories,Tags,Description,Faces';
+    this.contentType = 'application/json'; //'application/octet-stream';
+    this.apiKey = 'YOUR API KEY HERE';
+  }
+
+  getFacesForImageUrl(imageUrl){
+ 
+    let headers = new Headers();
+    //TODO: MOVE THESE TO SOME SORT OF CONSTANTS THAT IS LOADED GLOBALLY?
+    headers.append('Content-Type', this.contentType);
+    headers.append('Ocp-Apim-Subscription-Key', this.apiKey);
+
+    let url = { url: imageUrl };
+ 
+    let response = this.http.post(this.url, JSON.stringify(url), {headers: headers});
+    return response;    
   }
 
   load() {
