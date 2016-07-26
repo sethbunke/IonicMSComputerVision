@@ -24,6 +24,24 @@ export class ComputerVisionService {
     this.apiKey = 'YOUR API KEY HERE';
   }
 
+  createHeaders() {
+    let headers = new Headers();
+    headers.append('Content-Type', this.contentType);
+    headers.append('Ocp-Apim-Subscription-Key', this.apiKey);
+    return headers;
+  }
+
+  getFacesForImageBase64Data(base64data:string){
+ 
+    let headers = new Headers();
+    headers.append('Content-Type', this.contentType);
+    headers.append('Ocp-Apim-Subscription-Key', this.apiKey);
+
+    let blob = this.dataURItoBlob(base64data);
+    let response = this.http.post(this.url, blob, {headers: headers});
+    return response;     
+  }
+
   getFacesForImageUrl(imageUrl){
  
     let headers = new Headers();
@@ -39,7 +57,7 @@ export class ComputerVisionService {
 
   dataURItoBlob(dataURI) {
         // convert base64/URLEncoded data component to raw binary data held in a string
-        var byteString;
+        let byteString;
         if (dataURI.split(',')[0].indexOf('base64') >= 0) {
             byteString = atob(dataURI.split(',')[1]);
         } else {
@@ -47,11 +65,11 @@ export class ComputerVisionService {
         }
 
         // separate out the mime component
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
         // write the bytes of the string to a typed array
-        var ia = new Uint8Array(byteString.length);
-        for (var i = 0; i < byteString.length; i++) {
+        let ia = new Uint8Array(byteString.length);
+        for (let i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);
         }
 
