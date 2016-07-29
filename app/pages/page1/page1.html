@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-
+<!--
 <ion-content padding class="page1">
 
   <h3>Ionic Menu Starter</h3>
@@ -18,4 +18,17 @@
 
   <button secondary menuToggle>Toggle Menu</button>
 
+</ion-content>-->
+
+<ion-content class="home">
+  <ion-card>
+    <ion-card-content>
+      Hello World, this is my camera app
+
+      <button (click)="takePicture()">Take a Picture</button>
+
+      Latest Picture:
+      <img [src]="base64Image" *ngIf="base64Image" />
+    </ion-card-content>
+  </ion-card>
 </ion-content>

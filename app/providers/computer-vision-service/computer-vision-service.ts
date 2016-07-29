@@ -11,7 +11,6 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ComputerVisionService {
   data: any;
-
   url: string;
   apiKey: string;
   contentType: string;
@@ -20,7 +19,7 @@ export class ComputerVisionService {
     this.data = null;
     //TODO: INJECT AND LOAD THESE FROM CONFIG 
     this.url = 'https://api.projectoxford.ai/vision/v1.0/analyze?visualFeatures=Categories,Tags,Description,Faces';
-    this.contentType = 'application/json'; //'application/octet-stream';
+    this.contentType = 'application/octet-stream';
     this.apiKey = 'YOUR API KEY HERE';
   }
 
@@ -33,10 +32,10 @@ export class ComputerVisionService {
 
   getFacesForImageBase64Data(base64data:string){
  
-    let headers = new Headers();
-    headers.append('Content-Type', this.contentType);
-    headers.append('Ocp-Apim-Subscription-Key', this.apiKey);
-
+    // let headers = new Headers();
+    // headers.append('Content-Type', this.contentType);
+    // headers.append('Ocp-Apim-Subscription-Key', this.apiKey);
+    let headers = this.createHeaders();
     let blob = this.dataURItoBlob(base64data);
     let response = this.http.post(this.url, blob, {headers: headers});
     return response;     

@@ -1,17 +1,32 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Alert } from 'ionic-angular';
+import {Camera} from 'ionic-native';
+
 
 @Component({
   templateUrl: 'build/pages/page1/page1.html'
 })
 export class Page1 {
 
+  base64Image: string;
+  saveToPhotoAlbum: boolean;
+
   constructor(private navController: NavController) {
+      this.saveToPhotoAlbum = false;
+  }
+
+  presentAlert(title:string, subtitle:string) {
+    let alert = Alert.create({
+      title: title,
+      subTitle: subtitle,
+      buttons: ['Dismiss']
+    });
+    this.navController.present(alert);
   }
 
   takePicture() {  
         Camera.getPicture({
-            quality : 75,
+            quality : 100,
             destinationType : Camera.DestinationType.DATA_URL,
             sourceType : Camera.PictureSourceType.CAMERA,
             allowEdit : true,
